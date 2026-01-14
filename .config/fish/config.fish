@@ -36,3 +36,13 @@ function fish_greeting
         fastfetch
     end
 end
+
+#########################
+#       HOMEBREW        #
+#########################
+# Define the path to homebrew tapped repo
+set -gx DOT_BREW (brew --repository Xarianne/fedora-dotfiles)/homebrew
+
+# Homebrew aliases
+abbr -a brew-sync "brew update; and brew bundle --file $DOT_BREW/Brewfile; and brew bundle --file $DOT_BREW/gaming.Brewfile"
+abbr -a brew-gaming "brew bundle --file $DOT_BREW/gaming.Brewfile"
