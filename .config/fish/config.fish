@@ -51,3 +51,9 @@ abbr -a brew-install "echo 'Checking for updates and installing packages...'; br
 
 # Installs packages and uninstalls those not in the brewfile
 abbr -a brew-sync "echo 'Starting sync match Brewfile...'; brew update; and brew bundle --file $DOT_BREW/Brewfile --cleanup --force; and echo 'Sync finished, packages match Brewfile list.'"
+
+# Tells you if you are MISSING things from the Brewfile
+abbr -a brew-missing "echo 'Checking for missing packages...'; brew bundle check --file $DOT_BREW/Brewfile; and echo 'All listed packages are present.'"
+
+# Tells you if you have EXTRA things NOT in the Brewfile (Dry Run)
+abbr -a brew-extra "echo 'Auditing system for unlisted packages...'; brew bundle --file $DOT_BREW/Brewfile --cleanup; and echo 'Audit complete. (Check the list above for \"Would uninstall\")'"
