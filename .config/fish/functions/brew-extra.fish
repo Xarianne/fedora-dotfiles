@@ -2,7 +2,7 @@ function brew-extra --description 'Check for packages installed on the system bu
     echo 'Checking for unlisted packages...'
 
     # Use the absolute path to your Brewfile
-    set -l brewfile_path "$HOME/homebrew/Brewfile"
+    set -l brewfile_path "$DOT_BREW/Brewfile"
 
     # 1. Get the list from the Brewfile
     set -l brew_apps (grep '^flatpak' "$brewfile_path" | cut -d '"' -f 2 | cut -d "'" -f 2 | sort)

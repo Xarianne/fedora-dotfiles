@@ -41,7 +41,7 @@ end
 #       HOMEBREW        #
 #########################
 # Define the path to homebrew tapped repo
-set -gx DOT_BREW $HOME/homebrew
+set -gx DOT_BREW $HOME/.config/homebrew
 
 # Homebrew aliases
 
