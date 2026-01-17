@@ -30,11 +30,6 @@ else
   bind '$' __history_previous_command_arguments
 end
 
-function fish_greeting
-    # Only run in interactive shells and if fastfetch exists
-    if status --is-interactive && type -q fastfetch
-        fastfetch
-    end
-end
-
 alias code='flatpak run com.visualstudio.code'
+
+set -gx JUST_JUSTFILE "$HOME/.config/just/justfile"
