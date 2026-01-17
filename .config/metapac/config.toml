@@ -16,13 +16,13 @@ enabled_backends = ["flatpak", "cargo","brew"]
 # If this is `true` then the [hostname_groups] config table will be used to
 # decide which group files to use per hostname.
 # Default: false
-hostname_groups_enabled = true
+hostname_groups_enabled = false
 
 # Backends to enable per hostname. These will be merged with the base
 # `enabled_backends` config.
 # Default: None
 [hostname_enabled_backends]
-fedora = ["flatpak", "cargo", "brew"]
+pc = ["flatpak", "cargo", "brew"]
 laptop = ["arch", "cargo"]
 server = ["apt"]
 
