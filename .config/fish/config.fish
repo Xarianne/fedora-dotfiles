@@ -36,18 +36,3 @@ function fish_greeting
         fastfetch
     end
 end
-
-#########################
-#       HOMEBREW        #
-#########################
-# Define the path to homebrew tapped repo
-set -gx DOT_BREW $HOME/.config/homebrew
-
-# Homebrew aliases
-
-# Cheks the latest package list and installs them
-# Note: This is safe; it will not uninstall anything.
-alias brew-install "echo 'Checking for updates and installing packages...'; brew update; and brew bundle --file $DOT_BREW/Brewfile; and echo 'All packages are installed.'"
-
-# Installs packages and uninstalls those not in the brewfile
-alias brew-sync "echo 'Starting sync match Brewfile...'; brew update; and brew bundle --file $DOT_BREW/Brewfile --cleanup --force; and echo 'Sync finished, packages match Brewfile list.'"
