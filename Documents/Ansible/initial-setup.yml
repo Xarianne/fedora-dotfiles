@@ -18,7 +18,7 @@
           - fish
         state: present
 
-    # --- Module: Development (dev.yml + Zen 5 Toolchain) ---
+    # --- Module: Development ---
     - name: "Module: Development Environment"
       ansible.builtin.dnf5:
         name:
@@ -28,7 +28,7 @@
           - yadm
         state: present
 
-    # --- Module: Gaming (gaming.yml) ---
+    # --- Module: Gaming ---
     - name: "Module: Gaming Tools"
       ansible.builtin.dnf5:
         name:
@@ -38,7 +38,7 @@
           - vkBasalt
         state: present
 
-    # --- Module: COPR - Topgrade (copr-topgrade.yml) ---
+    # --- Module: COPR - Topgrade ---
     - name: "Module: COPR - Topgrade"
       block:
         - community.general.copr:
@@ -49,7 +49,7 @@
               - topgrade
             state: present
 
-    # --- Module: COPR - CachyOS Addons (copr-cachyos.yml) ---
+    # --- Module: COPR - CachyOS Addons ---
     - name: "Module: COPR - CachyOS Addons"
       block:
         - community.general.copr:
@@ -62,7 +62,7 @@
               - scx-manager
             state: present
 
-    # --- Module: COPR - xariann Tools (copr-xariann-tools.yml) ---
+    # --- Module: COPR - xariann Tools ---
     - name: "Module: COPR - xariann Tools"
       block:
         - community.general.copr:
@@ -72,9 +72,10 @@
             name:
               - nautilus-copy-path
               - boot-windows
+              - fedora-update
             state: present
 
-    # --- Module: Flatpaks (flatpaks.yml) ---
+    # --- Module: Flatpaks ---
     - name: "Module: Flatpaks"
       block:
         - community.general.flatpak_remote:
@@ -92,7 +93,7 @@
             state: present
             remote: flathub
 
-    # --- Module: Systemd Services (bluwhale.yml) ---
+    # --- Module: Systemd Services  ---
     - name: "Module: Systemd Services"
       ansible.builtin.systemd:
         name: "{{ item }}"
