@@ -1,0 +1,5 @@
+dnf = [
+  "boot-windows",
+  "nautilus-copy-path",
+  "fedora-update",
+]

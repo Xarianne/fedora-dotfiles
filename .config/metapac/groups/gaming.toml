@@ -1,0 +1,6 @@
+dnf = [
+  "goverlay",
+  "mangohud",
+  "steam",
+  "vkBasalt",
+]
