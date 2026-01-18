@@ -1,0 +1,9 @@
+[Unit]
+Description=Snapshot unmanaged Metapac packages to unsorted.toml
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/metapac-periodic-sync.sh
+
+[Install]
+WantedBy=default.target

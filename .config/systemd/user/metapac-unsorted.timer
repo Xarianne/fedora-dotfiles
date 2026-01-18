@@ -1,0 +1,11 @@
+[Unit]
+Description=Weekly snapshot of unmanaged packages
+
+[Timer]
+# Runs every Monday at 10:00 AM
+OnCalendar=Mon *-*-* 10:00:00
+# If the computer was off, run it as soon as possible after boot
+Persistent=true
+
+[Install]
+WantedBy=timers.target
