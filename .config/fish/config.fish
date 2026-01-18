@@ -31,5 +31,3 @@ else
 end
 
 alias code='flatpak run com.visualstudio.code'
-
-set -gx JUST_JUSTFILE "$HOME/.config/just/justfile"
