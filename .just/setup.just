@@ -1,42 +1,37 @@
-# ~/.just/setup.just
+# =============================================================================
+# VARIABLES
+# =============================================================================
+# Pre-calculate Fedora version so we don't need messy $() syntax in commands
+fedora_ver := shell("rpm -E %fedora")
 
 # =============================================================================
-# BOOTSTRAP
+# BOOTSTRAP (Post-Clone)
 # =============================================================================
 
 bootstrap:
-    @echo "Starting System Bootstrap..."
+    @echo "Initializing System State..."
     
-    # 1. Install Yadm (Skipped if already installed)
-    @if ! command -v yadm >/dev/null; then \
-        echo "Installing Yadm..."; \
-        git clone https://github.com/yadm-dev/yadm.git ~/.yadm-project; \
-        mkdir -p ~/.local/bin; \
-        ln -s ~/.yadm-project/yadm ~/.local/bin/yadm; \
-    fi
-
-    # 2. Clone Dotfiles (The fix is here)
-    @echo "Ensuring Dotfiles are present..."
-    # If the clone fails (because it's already there), we print a message and continue.
+    # 1. Finalize Yadm State (ignore error if already cloned)
+    @echo "Aligning Dotfiles..."
     @yadm clone https://github.com/Xarianne/fedora-dotfiles.git || echo "⚠️  Repo already exists. Skipping clone."
-
-    # 3. Finalize State
-    # This is important: even if we didn't clone just now, we force the files to match.
     @yadm reset --hard HEAD
 
-    # 4. Snapshot Base OS
+    # 2. Install Metapac
     @echo "Installing Metapac..."
     @sudo dnf install cargo gcc openssl-devel -y
-    @cargo install metapac || true
+    # We use full path to cargo just in case
+    @~/.cargo/bin/cargo install metapac || true
     
+    # 3. Snapshot Base OS
     @echo "Snapshotting Base OS..."
     @mkdir -p ~/.config/metapac/groups
     @if [ ! -f ~/.config/metapac/groups/base.toml ]; then \
-        metapac unmanaged > ~/.config/metapac/groups/base.toml; \
-        echo "Base OS secured."; \
+        echo "   Generating snapshot..."; \
+        ~/.cargo/bin/metapac unmanaged > ~/.config/metapac/groups/base.toml; \
+        echo "   Base OS secured."; \
     fi
 
-    # 5. Handoff
+    # 4. Handoff
     @echo "Bootstrap Complete. Handing off to Setup..."
     @just setup-system
 
@@ -44,16 +39,27 @@ bootstrap:
 # SYSTEM SETUP
 # =============================================================================
 
-setup-system: setup-repos install-cargo-tools sync setup-shell
+# Reordered: Shell First -> Repos -> Tools -> Sync
+setup-system: setup-shell setup-repos install-cargo-tools sync
     @echo "Provisioning Complete. Please reboot."
+
+setup-shell:
+    @echo "Configuring Shell..."
+    @if [ "$$SHELL" != "/usr/bin/fish" ]; then \
+        echo "Changing shell to Fish..."; \
+        sudo lchsh $$USER /usr/bin/fish; \
+    fi
 
 setup-repos:
     @echo "Configuring Repositories and Drivers..."
     
-    # Terra & Mesa
-    sudo dnf install -y --refresh --nogpgcheck --repofrompath "terra,https://repos.fyralabs.com/terra$$(rpm -E %fedora)" terra-release terra-release-mesa terra-release-multimedia
+    # Terra & Mesa (Using the clean {{fedora_ver}} variable)
+    @echo "Adding Terra for Fedora {{fedora_ver}}..."
+    sudo dnf install -y --refresh --nogpgcheck --repofrompath "terra,https://repos.fyralabs.com/terra{{fedora_ver}}" terra-release terra-release-mesa terra-release-multimedia
+    
     @echo "Upgrading Mesa stack..."
     sudo dnf upgrade -y --allowerasing mesa* libgbm
+    
     @echo "Installing Codecs..."
     sudo dnf install -y --allowerasing ffmpeg gstreamer1-plugins-bad gstreamer1-plugins-bad-free-extras gstreamer1-plugins-ugly
     
@@ -70,15 +76,10 @@ setup-repos:
 
 install-cargo-tools:
     @echo "Installing Cargo tools..."
-    cargo install cargo-update || true
-    cargo install topgrade || true
+    @~/.cargo/bin/cargo install cargo-update || true
+    @~/.cargo/bin/cargo install topgrade || true
 
 sync:
     @echo "Syncing Packages..."
-    sudo metapac sync
-
-setup-shell:
-    @if [ "$$SHELL" != "/usr/bin/fish" ]; then \
-        echo "Changing shell to Fish..."; \
-        sudo lchsh $$USER /usr/bin/fish; \
-    fi
+    # Use full path because PATH isn't updated in this session yet
+    sudo ~/.cargo/bin/metapac sync
