@@ -1,8 +1,8 @@
 # =============================================================================
 # VARIABLES
 # =============================================================================
-# Pre-calculate Fedora version so we don't need messy $() syntax in commands
 fedora_ver := shell("rpm -E %fedora")
+current_user := shell("whoami")
 
 # =============================================================================
 # BOOTSTRAP (Post-Clone)
@@ -11,7 +11,7 @@ fedora_ver := shell("rpm -E %fedora")
 bootstrap:
     @echo "Initializing System State..."
     
-    # 1. Finalize Yadm State (ignore error if already cloned)
+    # 1. Finalize Yadm State
     @echo "Aligning Dotfiles..."
     @yadm clone https://github.com/Xarianne/fedora-dotfiles.git || echo "⚠️  Repo already exists. Skipping clone."
     @yadm reset --hard HEAD
@@ -19,14 +19,17 @@ bootstrap:
     # 2. Install Metapac
     @echo "Installing Metapac..."
     @sudo dnf install cargo gcc openssl-devel -y
-    # We use full path to cargo just in case
-    @~/.cargo/bin/cargo install metapac || true
+    
+    # FIX: Run 'cargo' directly (it's in /usr/bin), but verify installation first
+    @echo "Building Metapac binary..."
+    @cargo install metapac || true
     
     # 3. Snapshot Base OS
     @echo "Snapshotting Base OS..."
     @mkdir -p ~/.config/metapac/groups
     @if [ ! -f ~/.config/metapac/groups/base.toml ]; then \
         echo "   Generating snapshot..."; \
+        # FIX: Metapac LIVES in ~/.cargo/bin, so we use the full path here
         ~/.cargo/bin/metapac unmanaged > ~/.config/metapac/groups/base.toml; \
         echo "   Base OS secured."; \
     fi
@@ -39,21 +42,21 @@ bootstrap:
 # SYSTEM SETUP
 # =============================================================================
 
-# Reordered: Shell First -> Repos -> Tools -> Sync
 setup-system: setup-shell setup-repos install-cargo-tools sync
     @echo "Provisioning Complete. Please reboot."
 
 setup-shell:
     @echo "Configuring Shell..."
+    @# FIX: Use 'current_user' variable to guarantee we get the right name
     @if [ "$$SHELL" != "/usr/bin/fish" ]; then \
         echo "Changing shell to Fish..."; \
-        sudo lchsh $$USER /usr/bin/fish; \
+        sudo lchsh {{current_user}} /usr/bin/fish; \
     fi
 
 setup-repos:
     @echo "Configuring Repositories and Drivers..."
     
-    # Terra & Mesa (Using the clean {{fedora_ver}} variable)
+    # Terra & Mesa
     @echo "Adding Terra for Fedora {{fedora_ver}}..."
     sudo dnf install -y --refresh --nogpgcheck --repofrompath "terra,https://repos.fyralabs.com/terra{{fedora_ver}}" terra-release terra-release-mesa terra-release-multimedia
     
@@ -76,10 +79,11 @@ setup-repos:
 
 install-cargo-tools:
     @echo "Installing Cargo tools..."
-    @~/.cargo/bin/cargo install cargo-update || true
-    @~/.cargo/bin/cargo install topgrade || true
+    # FIX: Use 'cargo' (system) to install 'topgrade' (user binary)
+    @cargo install cargo-update || true
+    @cargo install topgrade || true
 
 sync:
     @echo "Syncing Packages..."
-    # Use full path because PATH isn't updated in this session yet
-    sudo ~/.cargo/bin/metapac sync
+    # FIX: Point to the user binary path
+    ~/.cargo/bin/metapac sync
