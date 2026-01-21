@@ -7,7 +7,7 @@ Run these commands on a fresh installation.
 
 Use [OBS](https://software.opensuse.org//download.html?project=home%3ATheLocehiliosan%3Ayadm&package=yadm) as described in the Yadm docs. Pick the distro, then choose the install method.
 
-### 2. Install just (and git if needed)
+### 2. Install just (and git if needed). Example for Fedora:
 ```
 sudo dnf install just git
 ```
