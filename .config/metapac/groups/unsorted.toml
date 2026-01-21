@@ -1,0 +1,6 @@
+dnf = ["just"]
+flatpak = [
+  { package = "io.github.swordpuffin.rewaita", options = { systemwide = true } },
+  { package = "io.github.vikdevelop.SaveDesktop", options = { systemwide = true } },
+  { package = "io.missioncenter.MissionCenter", options = { systemwide = true } },
+]
