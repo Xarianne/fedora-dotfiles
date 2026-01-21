@@ -5,17 +5,15 @@ Run these commands on a fresh installation.
 
 ### 1. Install Yadm
 
-Clone Yadm into a hidden project folder
-```bash
-git clone https://github.com/yadm-dev/yadm.git ~/.yadm-project
+Use [OBS](https://software.opensuse.org//download.html?project=home%3ATheLocehiliosan%3Ayadm&package=yadm) as described in the Yadm docs. Pick the distro, then choose the install method.
+
+### 2. Install just (and git if needed)
 ```
-Link it to your local bin (ensure ~/.local/bin is in your PATH)
-```bash
-mkdir -p ~/.local/bin
-ln -s ~/.yadm-project/yadm ~/.local/bin/yadm
+sudo dnf install just git
 ```
 
-Verify it works
-```bash
-yadm version
+### Run just
 ```
+just --choose
+```
+Pick bootstrap.
