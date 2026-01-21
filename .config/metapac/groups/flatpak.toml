@@ -22,4 +22,5 @@ flatpak = [
   { package = "io.github.fabrialberio.pinapp" },
   { package = "io.github.swordpuffin.rewaita" },
   { package = "io.gitlab.adhami3310.Impression" },
+  { package = "io.github.vikdevelop.SaveDesktop", options = { systemwide = true } },
 ]
