@@ -29,8 +29,8 @@ fedora = ["dnf"]
 # Relative paths are relative to the groups folder.
 # Default: None
 [hostname_groups]
-fedora = ["base", "gaming", "main"]
-# archbtw = ["base", "gaming", "main"]
+fedora = ["base", "gaming", "cachyos", "dev-system", "flatpak", "topgrade", "xariann-tools"]
+# archbtw = ["base", "gaming"]
 
 [arch]
 # Since pacman, pamac, paru, pikaur and yay all operate on the same package database
