@@ -1,4 +1,0 @@
-cargo = [
-  { package = "metapac" },
-  { package = "cargo-update" },
-  ] 

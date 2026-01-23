@@ -29,7 +29,7 @@ fedora = ["dnf"]
 # Relative paths are relative to the groups folder.
 # Default: None
 [hostname_groups]
-fedora = ["base", "gaming", "cachyos", "dev-system", "topgrade", "xariann-tools", "rpm-tools", "flatpak", "cargo"]
+fedora = ["base", "gaming", "cachyos", "dev-system", "topgrade", "xariann-tools", "flatpak", "cargo-pkgs"]
 # archbtw = ["base", "gaming"]
 
 [arch]
@@ -82,4 +82,4 @@ variant = "code"
 # If this is `false` then the system is updated with the subcommand `update` (`up`).
 # If this is `true` then the system is updated with the subcommand `dist-upgrade` (`dup`).
 # Default: false
-distribution_upgrade = false
+distribution_upgrade = true
