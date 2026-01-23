@@ -88,7 +88,7 @@ manage-drift:
     # ---------------------------------------------------------
     # PART 1: SYNC (Install Missing)
     # ---------------------------------------------------------
-    echo -e "\nChecking package consistency..."
+    echo -e "\nChecking uninstalled packages..."
 
     # gum confirm returns 0 for Yes, 1 for No. 
     # The 'if' handles the 1 gracefully so the script doesn't exit.
