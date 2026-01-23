@@ -12,6 +12,11 @@ Use [OBS](https://software.opensuse.org//download.html?project=home%3ATheLocehil
 sudo dnf install just git
 ```
 
+Clone the repo:
+```
+yadm clone https://github.com/Xarianne/dotfiles.git
+```
+
 ### Run just
 ```
 just --choose
