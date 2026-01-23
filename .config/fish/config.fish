@@ -9,4 +9,4 @@ if test -d $HOME/.cargo/bin
 end
 
 alias metapac-unsorted="metapac unmanaged > $HOME/.config/metapac/groups/unsorted.toml"
-alias code='flatpak run com.visualstudio.code'
+# alias code='flatpak run com.visualstudio.code'
