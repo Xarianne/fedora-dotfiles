@@ -126,8 +126,3 @@ benchmark:
     trap popd EXIT
     pushd "$(mktemp -d)"
     stress-ng --matrix 0 -t 1m --times
-
-# TPM2 auto-unlock toggle
-[group('System')]
-toggle-tpm2:
-    @/usr/bin/luks-tpm2-autounlock
